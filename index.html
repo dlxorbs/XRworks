@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.1.0/dist/aframe-extras.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <a-scene
+      shadow="autoUpdate: true; type: pcfsoft"
+      renderer="gammaOutput: true"
+    >
+      <a-assets>
+        <a-asset-item id="map" src="./model/MAP.glb"></a-asset-item>
+        <a-asset-item id="character" src="./model/character.glb"></a-asset-item>
+        <a-asset-item id="homepod" src="./model/homepod.glb"></a-asset-item>
+        <a-asset-item id="desk" src="./model/desk.glb"></a-asset-item>
+        <a-asset-item id="tvtable" src="./model/tvtable.glb"></a-asset-item>
+        <a-asset-item id="sofa1" src="./model/sofa.glb"></a-asset-item>
+        <a-asset-item id="monitor1" src="./model/monitor.glb"></a-asset-item>
+        <a-asset-item
+          id="monitordisplay1"
+          src="./model/monitordisplay.glb"
+        ></a-asset-item>
+        <a-asset-item
+          id="bikinicity1"
+          src="./model/bikinicity.glb"
+        ></a-asset-item>
+        <a-asset-item id="table1" src="./model/table.glb"></a-asset-item>
+        <a-asset-item id="desktop1" src="./model/desktop.glb"></a-asset-item>
+        <a-asset-item id="nav-mesh" src="./model/navmesh.glb"></a-asset-item>
+        <video id="gods" src="./model/gods.mp4" autoplay="false"></video>
+      </a-assets>
+      <a-entity gltf-model="#map" position=" 0 0 0"></a-entity>
+
+      <a-entity
+        id="rig"
+        raycaster-decteted
+        navmesh-constraint="navmesh:.navmesh; fall: 3; height: 0;"
+        nav-agent
+        movement-controls="constrainToNavMesh: true; speed:0.3"
+        look-controls="enabled :true"
+        rotation-reader
+      >
+        <a-entity
+          id="player"
+          gltf-model="#character"
+          animation-mixer="clip: default;"
+          position="0 0 0"
+          rotation="0 0 0"
+          scale="1 1 1"
+        ></a-entity>
+        <a-entity camera id="camera" rotation="0 0 0" position="0 3 4">
+          <a-cursor
+            geometry="primitive: ring; radiusInner: 0; radiusOuter: 0"
+            cursor="rayOrigin: mouse;"
+            raycaster=" objects : .clickable; far : 1000;"
+          ></a-cursor>
+        </a-entity>
+      </a-entity>
+
+      <a-entity
+        class="navmesh"
+        nav-mesh
+        gltf-model="#nav-mesh"
+        scale="1 1 1"
+        position="0 0 0"
+        visible="false"
+      ></a-entity>
+      <a-entity
+        id="desktop"
+        gltf-model="#desktop1"
+        position=" 0 0 0"
+      ></a-entity>
+      <a-entity id="table" gltf-model="#table1" position=" 0 0 0"></a-entity>
+      <a-entity
+        id="bikinicity"
+        gltf-model="#bikinicity1"
+        animation-mixer="clip: default;"
+        position=" 0 0 0"
+      ></a-entity>
+      <a-entity id="sofa" gltf-model="#sofa1" position=" 0 0 0"></a-entity>
+      <a-entity
+        id="monitor"
+        gltf-model="#monitor1"
+        position=" 0 0 0"
+      ></a-entity>
+
+      <a-entity id= "disp" position="-2.621 2.451 2.224 " rotation = "0 107 0" scale ="1.490 0.838 1.000"  geometry="primitive: plane" material="src: #gods"></a-entity>
+      </a-entity>
+      <a-entity id="speaker" gltf-model="#homepod" position=" 0 0 0"></a-entity>
+      <a-entity id="tvt" gltf-model="#tvtable" position=" 0 0 0"></a-entity>
+      <a-entity id="des" gltf-model="#desk" position=" 0 0 0"></a-entity>
+
+    </a-scene>
+
+    <script>
+      let bikinicity = document.querySelector("#bikinicity");
+      console.log(bikinicity.object3D);
+
+      let monitor = document.querySelector("#disp");
+      let desktop = document.querySelector("#desktop");
+      let player = document.querySelector("#player");
+      let camera = document.querySelector("#camera");
+      let rig = document.querySelector("#rig");
+      //캐릭터 상하 회전 보정하는 함수
+      AFRAME.registerComponent("rotation-reader", {
+        tick: function () {
+          const rotationx = rig.object3D.rotation.x * -1;
+          player.object3D.rotation.set(rotationx, 0, 0);
+        },
+      });
+      function init() {
+        keys = {
+          a: false,
+          s: false,
+          d: false,
+          w: false,
+        };
+
+        document.body.addEventListener("keydown", function (e) {
+          const key = e.code.replace("Key", "").toLowerCase();
+          if (keys[key] !== undefined) {
+            if (key == "spacebar") {
+              spacebar = true;
+              keys[key] = false;
+            } else {
+              keys[key] = true;
+            }
+            console.log(keys);
+          }
+        });
+
+        document.body.addEventListener("keyup", function (e) {
+          const key = e.code.replace("Key", "").toLowerCase();
+          if (keys[key] !== undefined) {
+            keys[key] = false;
+          }
+        });
+      }
+
+      function desktopclick(){
+        monitor.setAttribute()
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        if (keys.w) {
+          player.setAttribute("animation-mixer", "clip: walking;");
+        } else if (keys.s) {
+          player.setAttribute("animation-mixer", "clip: walking;");
+        } else if (keys.a) {
+          player.setAttribute("animation-mixer", "clip: walking;");
+        } else if (keys.d) {
+          player.setAttribute("animation-mixer", "clip: walking;");
+        } else {
+          player.setAttribute("animation-mixer", "clip: default;");
+        }
+      }
+
+      init();
+      animate();
+    </script>
+  </body>
+</html>
