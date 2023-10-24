@@ -3,13 +3,16 @@
   <head>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.1.0/dist/aframe-extras.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="index.css">
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="index.css" />
   </head>
 
   <body>
-
-    <div class="startpage">
+    <!-- <div class="startpage">
       <h1>
         MY ROOM</h1>
       <div class="startcontainer">
@@ -46,48 +49,26 @@
           시작하기
         </button>
       </div>
-    </div>
+    </div> -->
 
     <a-scene
       shadow="autoUpdate: true; type: pcfsoft"
       renderer="gammaOutput: true"
     >
       <a-assets>
-        <a-asset-item id="map" src="./model/MAP.glb"></a-asset-item>
+        <img id="hdr" src="./background.jpg" alt="" />
+        <a-asset-item id="nav-mesh2" src="./model/navmesh2.glb"></a-asset-item>
         <a-asset-item id="character" src="./model/character.glb"></a-asset-item>
-        <a-asset-item id="homepod" src="./model/homepod.glb"></a-asset-item>
-        <a-asset-item id="desk" src="./model/desk.glb"></a-asset-item>
-        <a-asset-item id="tvtable" src="./model/tvtable.glb"></a-asset-item>
-        <a-asset-item id="sofa1" src="./model/sofa.glb"></a-asset-item>
-        <a-asset-item id="monitor1" src="./model/monitor.glb"></a-asset-item>
         <a-asset-item
-          id="monitordisplay1"
-          src="./model/monitordisplay.glb"
+          id="bogbikini1"
+          src="./model/bogbikini.glb"
         ></a-asset-item>
-        <a-asset-item
-          id="bikinicity1"
-          src="./model/bikinicity.glb"
-        ></a-asset-item>
-        
-        <a-asset-item id="bed1" src="./model/bed.glb"></a-asset-item>
-        
-        <a-asset-item id="refback1" src="./model/refback.glb"></a-asset-item>
-        <a-asset-item id="reffront1" src="./model/reffront.glb"></a-asset-item>
-        <a-asset-item id="switch1" src="./model/switch.glb"></a-asset-item>
-        <a-asset-item id="chair1" src="./model/chair.glb"></a-asset-item>
-        <a-asset-item id="chairdown1" src="./model/chairdown.glb"></a-asset-item>
-        <a-asset-item id="table1" src="./model/table.glb"></a-asset-item>
-        <a-asset-item id="desktop1" src="./model/desktop.glb"></a-asset-item>
-        <a-asset-item id="nav-mesh" src="./model/navmesh.glb"></a-asset-item>
-        <video id="gods" src="./model/gods.mp4" autoplay="true"></video>
-
       </a-assets>
-      <a-entity gltf-model="#map" position=" 0 0 0"></a-entity>
 
       <a-entity
         id="rig"
         raycaster-decteted
-        navmesh-constraint="navmesh:.navmesh; fall: 3; height: 0;"
+        navmesh-constraint="navmesh:.navmesh2; fall: 3; height: 0;"
         nav-agent
         movement-controls="constrainToNavMesh: true; speed:0.3"
         look-controls="enabled :true"
@@ -112,71 +93,90 @@
       </a-entity>
 
       <a-entity
-        class="navmesh"
+        class="navmesh2"
         nav-mesh
-        gltf-model="#nav-mesh"
+        gltf-model="#nav-mesh2"
         scale="1 1 1"
-        position="0 0 0"
+        position="0 0.1 0"
         visible="false"
       ></a-entity>
-      <a-entity
-      class="clickable"
-        id="desktop"
-        gltf-model="#desktop1"
-        position=" 0 0 0"
-      ></a-entity>
-      <a-entity
-      id="reffront"
-      class="clickable"
-      gltf-model="#reffront1"
-      position=" 0 0 0"
-    ></a-entity>
-    <a-entity
-    id="refback"
-    gltf-model="#refback1"
-    position=" 0 0 0"
-  ></a-entity>
 
-      <a-entity id="table" gltf-model="#table1" position=" 0 0 0"></a-entity>
       <a-entity
-        id="bikinicity"
-        gltf-model="#bikinicity1"
+        id="bogbikini"
+        gltf-model="#bogbikini1"
         animation-mixer="clip: default.001;"
         position=" 0 0 0"
       ></a-entity>
-      <a-entity
-      id="chair"
-      class="chair clickable"
-      gltf-model="#chair1"
-      position=" 0 0 0"
-    ></a-entity>
-    <a-entity
-    id="chairdown"
-    class="chair clickable"
-    gltf-model="#chairdown1"
-    position=" 0 0 0"
-  ></a-entity>
-      <a-entity id="sofa" gltf-model="#sofa1" position=" 0 0 0"></a-entity>
-      <a-entity id="bed" gltf-model="#bed1" position=" 0 0 0"></a-entity>
-      <a-entity id="switch" gltf-model="#switch1" position=" 0 0 0"></a-entity>
 
-      <a-entity
-        id="monitor"
-        gltf-model="#monitor1"
-        position=" 0 0 0"
-      ></a-entity>
-
-      <a-entity id= "disp" class="clickable" position="-2.621 2.451 2.224 " rotation = "0 107 0" scale ="1.490 0 1.000"  geometry="primitive: plane" material="src: #gods"></a-entity>
-      </a-entity>
-
-      <a-entity id="speaker" gltf-model="#homepod" position=" 0 0 0"></a-entity>
-      <a-entity id="des"  gltf-model="#desk" position=" 0 0 0"></a-entity>
-      
-      <a-box id="box" class=".clickable" position = "3 0 -0.5" raycaster-detected visible ="false"></a-box>
+      <a-box
+        id="box"
+        class=".clickable"
+        position="3 0 -0.5"
+        raycaster-detected
+        visible="false"
+      ></a-box>
+      <a-sky color="skyblue" rotation=" 180 0 0 " scale=" 1 1 1 "></a-sky>
     </a-scene>
 
-    <script src = "./style.js">
- 
+    <script>
+      //캐릭터 상하 회전 보정하는 함수
+      AFRAME.registerComponent("rotation-reader", {
+        tick: function () {
+          const rotationx = rig.object3D.rotation.x * -1;
+          player.object3D.rotation.set(rotationx, 0, 0);
+        },
+      });
+
+      //키보드 누른 값 받아오기
+      function init() {
+        keys = {
+          a: false,
+          s: false,
+          d: false,
+          w: false,
+        };
+
+        document.body.addEventListener("keydown", function (e) {
+          const key = e.code.replace("Key", "").toLowerCase();
+          if (keys[key] !== undefined) {
+            if (key == "spacebar") {
+              spacebar = true;
+              keys[key] = false;
+            } else {
+              keys[key] = true;
+            }
+
+            //   console.log(keys);
+          }
+        });
+
+        document.body.addEventListener("keyup", function (e) {
+          const key = e.code.replace("Key", "").toLowerCase();
+          if (keys[key] !== undefined) {
+            keys[key] = false;
+          }
+        });
+      }
+
+      //   키보드 클릭시 애니메이션 실행
+      function animate() {
+        requestAnimationFrame(animate);
+
+        if (keys.w) {
+          player.setAttribute("animation-mixer", "clip: walking;");
+        } else if (keys.s) {
+          player.setAttribute("animation-mixer", "clip: walking;");
+        } else if (keys.a) {
+          player.setAttribute("animation-mixer", "clip: walking;");
+        } else if (keys.d) {
+          player.setAttribute("animation-mixer", "clip: walking;");
+        } else {
+          player.setAttribute("animation-mixer", "clip: default;");
+        }
+      }
+
+      init();
+      animate();
     </script>
   </body>
 </html>
