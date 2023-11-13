@@ -23,12 +23,12 @@ $(".button").click(function () {
 });
 
 //캐릭터 상하 회전 보정하는 함수
-AFRAME.registerComponent("rotation-reader", {
-  tick: function () {
-    const rotationx = rig.object3D.rotation.x * -1;
-    player.object3D.rotation.set(rotationx, 0, 0);
-  },
-});
+// AFRAME.registerComponent("rotation-reader", {
+//   tick: function () {
+//     const rotationx = rig.object3D.rotation.x * -1;
+//     player.object3D.rotation.set(rotationx, 0, 0);
+//   },
+// });
 
 //키보드 누른 값 받아오기
 function init() {
@@ -163,25 +163,25 @@ $(".yes").click(function () {
 
 //1인칭 3인칭 변경
 
-function FPP() {
-  //   let cmloc = camera.object3D.position;
+// function FPP() {
+//   //   let cmloc = camera.object3D.position;
 
-  //   cmloc.x = 0;
-  //   cmloc.y = 2;
-  //   cmloc.z = 0;
-  rig.setAttribute("movement-controls", "speed:0.05");
-  camera.setAttribute("animation", "property:position; to: 0 1 0; dur:800;");
-  player.setAttribute("visible", "false");
-}
-function TPP() {
-  //   let cmloc = camera.object3D.position;
-  //   cmloc.x = 0;
-  //   cmloc.y = 3;
-  //   cmloc.z = 4;
-  rig.setAttribute("movement-controls", "speed:0.3");
-  camera.setAttribute("animation", "property:position; to: 0 3 4; dur:1000;");
-  player.setAttribute("visible", "true");
-}
+//   //   cmloc.x = 0;
+//   //   cmloc.y = 2;
+//   //   cmloc.z = 0;
+//   rig.setAttribute("movement-controls", "speed:0.05");
+//   camera.setAttribute("animation", "property:position; to: 0 1 0; dur:800;");
+//   player.setAttribute("visible", "false");
+// }
+// function TPP() {
+//   //   let cmloc = camera.object3D.position;
+//   //   cmloc.x = 0;
+//   //   cmloc.y = 3;
+//   //   cmloc.z = 4;
+//   rig.setAttribute("movement-controls", "speed:0.3");
+//   camera.setAttribute("animation", "property:position; to: 0 3 4; dur:1000;");
+//   player.setAttribute("visible", "true");
+// }
 
 let objs = [];
 let obj = {};
@@ -224,13 +224,13 @@ AFRAME.registerComponent("raycaster-detected", {
       }
     }
 
-    if (this.el.id == "box") {
-      if (obj.distance < 1.5) {
-        FPP();
-      } else {
-        TPP();
-      }
-    }
+    // if (this.el.id == "box") {
+    //   if (obj.distance < 1.5) {
+    //     FPP();
+    //   } else {
+    //     TPP();
+    //   }
+    // }
   },
 });
 
