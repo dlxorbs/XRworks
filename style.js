@@ -11,6 +11,7 @@ let player = document.querySelector("#player");
 let camera = document.querySelector("#camera");
 let rig = document.querySelector("#rig");
 let disp = document.querySelector("#disp");
+let biki = document.querySelector("#bikinicity");
 
 var videoEl = document.querySelector("#gods");
 videoEl.currentTime = 0; // Seek to 122 seconds.
@@ -144,6 +145,22 @@ $("#reffront").click(function () {
   }
 });
 
+// 비키니시티 클릭시 애니메이션 재생
+
+$(biki).click(function () {
+  $(".modal").addClass("show");
+});
+
+$(".no").click(function () {
+  $(".modal").removeClass("show");
+});
+
+$(".yes").click(function () {
+  let box = document.querySelector("#box");
+  $(box).click();
+});
+
+
 //1인칭 3인칭 변경
 
 // function FPP() {
@@ -216,40 +233,6 @@ AFRAME.registerComponent("raycaster-detected", {
     // }
   },
 });
-
-// AFRAME.registerComponent("raycaster-listen", {
-//   init: function () {
-//     // Use events to figure out what raycaster is listening so we don't have to
-//     // hardcode the raycaster.
-//     this.el.addEventListener("raycaster-intersected", (evt) => {
-//       this.raycaster = evt.detail.el;
-//     });
-//     this.el.addEventListener("raycaster-intersected-cleared", (evt) => {
-//       this.raycaster = null;
-//     });
-//   },
-
-//   tick: function () {
-//     if (!this.raycaster) {
-//       return;
-//     } // Not intersecting.
-
-//     let intersection = this.raycaster.components.raycaster.getIntersection(
-//       this.el
-//     );
-//     let distance = intersection.distance;
-//     console.log(distance);
-//     if (!intersection) {
-//       return;
-//     }
-
-//     if (distance < 1.5) {
-//       FPP();
-//     } else {
-//       TPP();
-//     }
-//   },
-// });
 
 init();
 animate();

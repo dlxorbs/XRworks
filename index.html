@@ -129,6 +129,19 @@
       </div>
     </div>
 
+
+    <div class="modal">
+      <span>비키니시티로 <br> 이동하시겠습니까?</span>
+      <div class="btn">
+        <button class="yes">예</button>
+        <button class="no">아니오</button>
+      </div>
+    </div>
+
+
+
+
+
     <a-scene
       shadow="autoUpdate: true; type: pcfsoft"
       renderer="gammaOutput: true"
@@ -223,6 +236,7 @@
       <a-entity id="table" gltf-model="#table1" position=" 0 0 0"></a-entity>
       <a-entity
         id="bikinicity"
+        class="clickable" 
         gltf-model="#bikinicity1"
         animation-mixer="clip: default.001;"
         position=" 0 0 0"
@@ -255,7 +269,9 @@
       <a-entity id="speaker" gltf-model="#homepod" position=" 0 0 0"></a-entity>
       <a-entity id="des"  gltf-model="#desk" position=" 0 0 0"></a-entity>
       
-      <a-box id="box" class=".clickable" position = "3 0 -0.5" raycaster-detected visible ="false"></a-box> -->
+
+      <a-box id="box" class=".clickable"  link = "href: index2.html" position = "3 0 -0.5" raycaster-detected visible ="false"></a-box>
+
     </a-scene>
 
     <script src="./style.js"></script>
