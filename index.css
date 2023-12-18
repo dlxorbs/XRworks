@@ -2,6 +2,18 @@ a-scene {
   z-index: 1;
 }
 
+@font-face {
+  font-family: "EliceDigitalBaeum-Bd";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_elice@1.0/EliceDigitalBaeum-Bd.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: "EliceDigitalBaeum-Bd";
+}
+
 .startpage {
   display: flex;
   flex-direction: column;
@@ -82,6 +94,12 @@ h1 {
   gap: 48px;
 }
 
+.div {
+  width: 726px;
+  height: 280px;
+  background-image: url(https://www.nintendo.co.kr/switch/acbaa/assets/images/top/visual_logo__sp.png);
+  background-size: cover;
+}
 button {
   width: 180px;
   height: 48px;
@@ -102,17 +120,35 @@ button {
   display: none;
   position: absolute;
   flex-direction: column;
-
-  width: 80%;
-  height: 80%;
-  background-color: #00000099;
-  border-radius: 48px;
-  top: 10%;
-  left: 10%;
-  color: #ffffff;
+  z-index: 9;
+  width: 90%;
+  height: calc(90% / 3);
+  margin: 0 auto;
+  bottom: 2%;
+  transform: translate(-50% -50%);
+  left: 5%;
+  color: #7b5e48;
   align-items: center;
   justify-content: center;
+
+  background-image: url(./model/chat.png);
+
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   gap: 20%;
+}
+.name {
+  position: absolute;
+  width: 98px;
+  height: 48px;
+  background-image: url(./model/Name.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(-10deg);
+  top: -8%;
+  left: 8%;
 }
 
 .stop {
@@ -125,10 +161,17 @@ button {
   transform: translate(-50%);
   left: 50%;
 }
-.modal > span {
-  font-size: 48px;
-  text-align: center;
+
+.modal > p {
+  font-size: 36px;
+  text-align: left;
+  width: 800px;
+  max-width: 800px;
+  margin-left: 15%;
+  word-break: keep-all;
+  word-wrap: break-word;
 }
+
 .btn {
   display: flex;
   justify-content: center;

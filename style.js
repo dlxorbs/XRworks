@@ -10,21 +10,21 @@ let desktop = document.querySelector("#desktop");
 let player = document.querySelector("#player");
 let camera = document.querySelector("#camera");
 let rig = document.querySelector("#rig");
-let disp = document.querySelector("#disp");
-let biki = document.querySelector("#bikinicity");
+
+let npc = document.querySelector("#npc01");
 
 // var videoEl = document.querySelector("#gods");
 // videoEl.currentTime = 0; // Seek to 122 seconds.
 // videoEl.pause();
 // videoEl.volume = 0;
 
-//캐릭터 상하 회전 보정하는 함수
-// AFRAME.registerComponent("rotation-reader", {
-//   tick: function () {
-//     const rotationx = rig.object3D.rotation.x * -1;
-//     player.object3D.rotation.set(rotationx, 0, 0);
-//   },
-// });
+// 캐릭터 상하 회전 보정하는 함수
+AFRAME.registerComponent("rotation-reader", {
+  tick: function () {
+    const rotationx = rig.object3D.rotation.x * -1;
+    player.object3D.rotation.set(rotationx, 0, 0);
+  },
+});
 
 $(".button").click(function () {
   $(".startpage").css({ "z-index": "0", display: "none" });
@@ -81,75 +81,7 @@ function animate() {
   }
 }
 
-// 모니터 클릭시 영상재생
-function monitorclick() {
-  if (videoEl.paused) {
-    videoEl.play();
-    videoEl.volume = 0.4;
-
-    disp.setAttribute(
-      "animation",
-      "property:scale; to:1.490 0.838 1.000; dur:100;"
-    );
-  } else {
-    videoEl.pause();
-    videoEl.volume = 0.0;
-    disp.setAttribute(
-      "animation",
-      "property:scale; to:1.490 0 1.000; dur:100;"
-    );
-  }
-}
-
-$(desktop).click(function () {
-  monitorclick();
-});
-// 의자 클릭시 애니메이션 재생
-function chairclick() {
-  chairup.setAttribute("animation-mixer", "clip: up; loop : once;");
-  chairdown.setAttribute("animation-mixer", "clip: down; loop : once;");
-}
-
-$(chair).click(function () {
-  chairclick();
-  $(chairup).on("animation-finished", function () {
-    chairup.removeAttribute("animation-mixer");
-  });
-  $(chairdown).on("animation-finished", function () {
-    chairdown.removeAttribute("animation-mixer");
-  });
-});
-
-// 냉장고 클릭시 애니메이션 재생
-function refgclick() {
-  reffront.setAttribute("animation-mixer", "clip: open; loop: once;");
-}
-
-function refgclick2() {
-  reffront.setAttribute("animation-mixer", "clip: close; loop: once;");
-}
-
-$("#reffront").click(function () {
-  if ($(".open").length > 0) {
-    refgclick2();
-    $(reffront).on("animation-finished", function () {
-      reffront.removeAttribute("animation-mixer");
-      $(reffront).removeClass("open");
-    });
-  } else {
-    refgclick();
-    $(reffront).on("animation-finished", function () {
-      reffront.setAttribute("animation-mixer", "clip: ooo;");
-      $(reffront).addClass("open");
-    });
-  }
-});
-
 // 비키니시티 클릭시 애니메이션 재생
-
-$(biki).click(function () {
-  $(".modal").addClass("show");
-});
 
 $(".no").click(function () {
   $(".modal").removeClass("show");
@@ -168,9 +100,17 @@ function FPP() {
   //   cmloc.x = 0;
   //   cmloc.y = 2;
   //   cmloc.z = 0;
-  rig.setAttribute("movement-controls", "speed:0.05");
-  camera.setAttribute("animation", "property:position; to: 0 1 0; dur:800;");
-  player.setAttribute("visible", "false");
+  rig.setAttribute("movement-controls", "speed:0.8");
+  rig.setAttribute("look-controls", "enabled : false;");
+  rig.setAttribute("animation", "property:rotation; to:  0 0 0; dur:800;");
+
+  camera.setAttribute("animation", "property:position; to: 3.5 3 -1; dur:800;");
+  camera.setAttribute(
+    "animation__2",
+    "property:rotation; to: -20 90 0; dur:800;"
+  );
+
+  rig.setAttribute("animation", "property:rotation; to: 0 0 0; dur:800;");
 }
 function TPP() {
   //   let cmloc = camera.object3D.position;
@@ -178,8 +118,10 @@ function TPP() {
   //   cmloc.y = 3;
   //   cmloc.z = 4;
   rig.setAttribute("movement-controls", "speed:0.3");
+  rig.setAttribute("look-controls", "enabled : true;");
   camera.setAttribute("animation", "property:position; to: 0 3 4; dur:1000;");
   player.setAttribute("visible", "true");
+  camera.setAttribute("animation__2", "property:rotation; to: 0 0 0; dur:800;");
 }
 
 let objs = [];
@@ -189,7 +131,6 @@ AFRAME.registerComponent("raycaster-detected", {
   updateSchema: function () {
     this.el.addEventListener("click", function (evt) {
       let object = evt.detail.intersection.object.el.id;
-      console.log(object);
     });
   },
 
@@ -224,12 +165,58 @@ AFRAME.registerComponent("raycaster-detected", {
     }
 
     if (this.el.id == "box") {
-      if (obj.distance < 1.5) {
+      if (obj.distance < 4.6) {
         FPP();
       } else {
         TPP();
       }
     }
+  },
+});
+
+let points = 0;
+let curve = 0;
+var camPosIndex = 0;
+
+//"some-line"속성을 가진 객체안에 곡선을 넣고 그 곡선을 따라서 움직일 수 있도록
+AFRAME.registerComponent("some-line", {
+  init: function () {
+    // create an array of points.
+    curve = new THREE.CatmullRomCurve3([new THREE.Vector3(0, 0, 0)], true);
+
+    // 라인 가시화
+    const points = curve.getPoints(50);
+    const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const line = new THREE.Line(geometry, material);
+    this.el.object3D.add(line);
+  },
+
+  tick: function () {
+    // 현재 캐릭터와 npc의 위치를 받아옴
+    let p = rig.object3D.position;
+    let item = npc.object3D.position;
+
+    // 위치를 벡터로 저장
+    const a = new THREE.Vector3(p.x, p.y, p.z);
+    const b = new THREE.Vector3(item.x, item.y, item.z);
+
+    // 두 벡터의 거리를 측정
+    const d = a.distanceTo(b).toFixed(1);
+
+    // 두 벡터의 각도를 측정
+    let angle2 = Math.atan2(item.z - p.z, item.x - p.x);
+
+    // if (d < 4) {
+    //   camPosIndex;
+    //   npc.object3D.rotation.set(0, -angle2, 0);
+    // } else {
+    //   camPosIndex++;
+    //   if (camPosIndex > 2000) {
+    //     camPosIndex = 0;
+    //   }
+    //   npc.object3D.rotation.set(0, -angle, 0);
+    // }
   },
 });
 
